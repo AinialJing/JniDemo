@@ -1,4 +1,15 @@
 # JniDemo
+## JNI数据类型及与Java数据类型的映射关系
+Java数据类型 | JNI数据类型
+-------------|-----------
+byte         | jbyte
+char         | jchar
+short        | jshort
+int          | jint
+long         | jlong
+float        | jfloat
+double       | jdouble
+
 ## java数据类型与签名类型的对应关系
 Java类型  |  类型签名
 ----------|----------
