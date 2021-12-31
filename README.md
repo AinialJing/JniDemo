@@ -26,8 +26,8 @@ void      |     V
 类       |     L全限定名;，比如String, 其签名为Ljava/lang/String;(注意后面有个分号)
 
 ## 静态注册函数  
-** 根据函数名来建立 java 方法与 JNI 函数的一一对应关系；**    
-** 命名规则如下：Java+方法的全路径（路径中一定要用“_”代替Java全路径里面的""."） **
+——根据函数名来建立 java 方法与 JNI 函数的一一对应关系；——   
+——命名规则如下：Java+方法的全路径（路径中一定要用“_”代替Java全路径里面的""."）——  
 
 在MainActivity里面定义了一个native方法:  
 ~~~
@@ -44,10 +44,10 @@ Java_com_anniljing_jnidemo_MainActivity_stringFromJNI(
     return env->NewStringUTF(hello.c_str());
 }
 ~~~
-## 动态注册函数  
-** 原理：利用 RegisterNatives 方法来注册 java 方法与 JNI 函数的一一对应关系；**  
-** 实现流程：**
-  ** 1、实现 JNI_OnLoad 方法，在加载动态库后，执行动态注册;**  
+## 动态注册函数 
+——原理：利用 RegisterNatives 方法来注册 java 方法与 JNI 函数的一一对应关系；——  
+——实现流程：——
+  ——1、实现 JNI_OnLoad 方法，在加载动态库后，执行动态注册;——  
 ~~~
 JNIEXPORT int JNICALL JNI_OnLoad(JavaVM *vm, void *reserved) {
 }
