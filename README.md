@@ -1,4 +1,17 @@
 # JniDemo
+## java数据类型与签名类型的对应关系
+Java类型  |  类型签名
+----------|----------
+boolean   |     Z
+byte      |     B
+int       |     I
+char      |     C
+short     |     S
+long      |     L
+float     |     F
+double    |     D
+void      |     V
+array     |     [
 ## 问题1：新增加的AndroidLog.h的头文件一直无法预编译<android/log.h>和<jni.h>头文件
 
 ## 解决方法：
