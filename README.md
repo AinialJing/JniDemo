@@ -43,7 +43,8 @@ target_link_libraries(
         native-lib
         ${log-lib})
 ```  
-这样的话，就放在了一个库里面。但是这不是我当初想要的效果，我是想生成两个库的。原因肯定是在连接库的地方出现了问题的，于是CMakeList.txt改为如下内容：  
+这样的话，就放在了一个库里面。  
+2、但是这不是我当初想要的效果，我是想生成两个库的。原因肯定是在连接库的地方出现了问题的，于是CMakeList.txt改为如下内容：  
 ```
 cmake_minimum_required(VERSION 3.10.2)
 
