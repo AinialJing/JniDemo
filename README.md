@@ -20,7 +20,7 @@ add_library(
 
 ![555d51a695b861ed316cd118068eefb](https://user-images.githubusercontent.com/8243494/147808895-532a97b6-d4ef-4a2a-88f9-7fb86a5b9f8e.png)  
 
-解决方法：
+解决方法：  
 1、把jni_dynamic_load.cpp放到 native-lib里面，CMakeList.txt如下：
 ```
 cmake_minimum_required(VERSION 3.10.2)
