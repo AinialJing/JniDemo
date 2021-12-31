@@ -45,18 +45,33 @@ Java_com_anniljing_jnidemo_MainActivity_stringFromJNI(
 }
 ~~~
 ## 动态注册函数 
-————原理：利用 RegisterNatives 方法来注册 java 方法与 JNI 函数的一一对应关系；————  
-——实现流程：——
-  ——1、实现 JNI_OnLoad 方法，在加载动态库后，执行动态注册;——  
+**原理：利用 RegisterNatives 方法来注册 java 方法与 JNI 函数的一一对应关系；**    
+**实现流程：**
+  **1、实现 JNI_OnLoad 方法，在加载动态库后，执行动态注册;**  
 ~~~
 JNIEXPORT int JNICALL JNI_OnLoad(JavaVM *vm, void *reserved) {
 }
 ~~~
-   2、调用 FindClass 方法，获取 java 对象；
-   3、利用结构体 JNINativeMethod 数组记录 java 方法与 JNI 函数的对应关系；
-   4、调用 RegisterNatives 方法，传入 java 对象，以及 JNINativeMethod 数组，以及注册数目完成注册；
+   **2、调用 FindClass 方法，获取 java 对象；**
 ~~~
-
+ jclass jcls;
+    jcls = env->FindClass(name);
+    if (jcls == nullptr) {
+        return JNI_FALSE;
+    }
+~~~
+   **3、利用结构体 JNINativeMethod 数组记录 java 方法与 JNI 函数的对应关系；**
+~~~
+static JNINativeMethod gMethods[] = {
+        {"sum",             "(II)I",                (void *) sum},
+        {"getNativeString", "()Ljava/lang/String;", (void *) getMessage}
+};
+~~~
+   **4、调用 RegisterNatives 方法，传入 java 对象，以及 JNINativeMethod 数组，以及注册数目完成注册；**
+~~~
+ if (env->RegisterNatives(jcls, methods, nMethods) < 0) {
+        return JNI_FALSE;
+    }
 ~~~
    
 ## 问题1：新增加的AndroidLog.h的头文件一直无法预编译<android/log.h>和<jni.h>头文件
