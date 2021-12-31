@@ -77,5 +77,13 @@ target_link_libraries(
 target_link_libraries(
         dynamicLoad-lib
         ${log-lib}
+```  
+## 问题3：illegal class name  
+![image](https://user-images.githubusercontent.com/8243494/147809896-45476764-8fa5-4411-b1f7-8d108890a582.png)  
+![image](https://user-images.githubusercontent.com/8243494/147809848-36e28c7e-97e8-4fd9-936d-5eefd08543f3.png)  
+## cpp文件是无法识别“.”的路径，要把“.”换成“/”即可
 ```
+#define JAVA_CLASS "com/anniljing/jnidemo/JniDynamicLoad"
+```
+
 
