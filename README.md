@@ -11,7 +11,7 @@ long      |     L
 float     |     F
 double    |     D
 void      |     V
-数组     |     [类型签名
+数组     |     [类型签名，比如String[] 是[Ljava/lang/String;
 类       |     L全限定名;，比如String, 其签名为Ljava/lang/String;(注意后面有个分号)
 ## 问题1：新增加的AndroidLog.h的头文件一直无法预编译<android/log.h>和<jni.h>头文件
 
