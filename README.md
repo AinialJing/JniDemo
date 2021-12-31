@@ -24,6 +24,25 @@ double    |     D
 void      |     V
 数组     |     [类型签名，比如String[] 是[Ljava/lang/String;
 类       |     L全限定名;，比如String, 其签名为Ljava/lang/String;(注意后面有个分号)
+
+## 静态注册函数
+根据函数名来建立 java 方法与 JNI 函数的一一对应关系；  
+命名规则如下：Java+方法的全路径（路径中一定要用“/”代替Java全路径里面的""."）  
+在MainActivity里面定义了一个native方法:  
+~~~
+ public native String stringFromJNI();
+~~~
+按照命名对应规则，JNI层的函数注册为：  
+~~~
+extern "C" JNIEXPORT jstring JNICALL
+Java_com_anniljing_jnidemo_MainActivity_stringFromJNI(
+        JNIEnv *env,
+        jobject /* this */) {
+    std::string hello = "Hello from C++";
+    LOGD("Get native message success");
+    return env->NewStringUTF(hello.c_str());
+}
+~~~
 ## 问题1：新增加的AndroidLog.h的头文件一直无法预编译<android/log.h>和<jni.h>头文件
 
 ## 解决方法：
