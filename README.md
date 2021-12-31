@@ -15,4 +15,68 @@ add_library(
         SHARED
         jni_dynamic_load.cpp
 )
+```  
+但是编译的时候，抛出之前的AndroidLog.h文件未定义的异常  
+
+![555d51a695b861ed316cd118068eefb](https://user-images.githubusercontent.com/8243494/147808895-532a97b6-d4ef-4a2a-88f9-7fb86a5b9f8e.png)  
+
+解决方法：
+1、把jni_dynamic_load.cpp放到 native-lib里面，CMakeList.txt如下：
 ```
+cmake_minimum_required(VERSION 3.10.2)
+
+project("jnidemo")
+
+
+add_library(
+        native-lib
+        SHARED
+        native-lib.cpp
+        jni_dynamic_load.cpp
+)
+find_library(
+        log-lib
+        log
+)
+include_directories(${CMAKE_HOME_DIRECTORY}/base)
+target_link_libraries(
+        native-lib
+        ${log-lib})
+```  
+这样的话，就放在了一个库里面。但是这不是我当初想要的效果，我是想生成两个库的。原因肯定是在连接库的地方出现了问题的，于是CMakeList.txt改为如下内容：  
+```
+cmake_minimum_required(VERSION 3.10.2)
+
+project("jnidemo")
+
+
+add_library(
+        native-lib
+        SHARED
+        native-lib.cpp
+)
+add_library(
+        dynamicLoad-lib
+        SHARED
+        jni_dynamic_load.cpp
+)
+find_library(
+        log-lib
+        log
+)
+include_directories(${CMAKE_HOME_DIRECTORY}/base)
+target_link_libraries(
+        native-lib
+        ${log-lib})
+target_link_libraries(
+        dynamicLoad-lib
+        ${log-lib}
+)
+```  
+核心代码在于最下面第二个target_link_libraries，就是做了库与Log库的连接。
+```
+target_link_libraries(
+        dynamicLoad-lib
+        ${log-lib}
+```
+
