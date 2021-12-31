@@ -9,8 +9,10 @@
 新增加jni_dynamic_load.cpp，实现动态注册jni，CMakeList.txt的编写如下：
 ![image](https://user-images.githubusercontent.com/8243494/147808634-6dc02c34-a8b1-46dc-97dc-3267d267f3c4.png)
 新增了如下代码：
+```
 add_library(
         dynamicLoad-lib
         SHARED
         jni_dynamic_load.cpp
 )
+```
