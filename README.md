@@ -27,7 +27,7 @@ void      |     V
 
 ## 静态注册函数
 根据函数名来建立 java 方法与 JNI 函数的一一对应关系；  
-命名规则如下：Java+方法的全路径（路径中一定要用“/”代替Java全路径里面的""."）  
+命名规则如下：** Java+方法的全路径（路径中一定要用“_”代替Java全路径里面的""."）  **
 在MainActivity里面定义了一个native方法:  
 ~~~
  public native String stringFromJNI();
