@@ -1,6 +1,6 @@
 //
 // Created by WRTRD02 on 2021-12-30.
-//
+//头文件只有被其他CPP文件依赖以后才能正常导入
 #include <android/log.h>
 #include <jni.h>
 
