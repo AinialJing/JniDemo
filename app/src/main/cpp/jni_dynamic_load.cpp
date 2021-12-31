@@ -1,6 +1,4 @@
-//
-// Created by WRTRD02 on 2021-12-31.
-//
+//动态注册本地方法
 #include <jni.h>
 #include <AndroidLog.h>
 

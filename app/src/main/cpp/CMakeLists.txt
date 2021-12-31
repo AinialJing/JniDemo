@@ -13,6 +13,11 @@ add_library(
         SHARED
         jni_dynamic_load.cpp
 )
+add_library(
+        basicType-lib
+        SHARED
+        basicType.cpp
+)
 find_library(
         log-lib
         log
@@ -23,5 +28,9 @@ target_link_libraries(
         ${log-lib})
 target_link_libraries(
         dynamicLoad-lib
+        ${log-lib}
+)
+target_link_libraries(
+        basicType-lib
         ${log-lib}
 )
