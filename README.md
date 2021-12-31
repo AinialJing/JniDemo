@@ -45,7 +45,7 @@ Java_com_anniljing_jnidemo_MainActivity_stringFromJNI(
 }
 ~~~
 ## 动态注册函数 
-——原理：利用 RegisterNatives 方法来注册 java 方法与 JNI 函数的一一对应关系；——  
+————原理：利用 RegisterNatives 方法来注册 java 方法与 JNI 函数的一一对应关系；————  
 ——实现流程：——
   ——1、实现 JNI_OnLoad 方法，在加载动态库后，执行动态注册;——  
 ~~~
