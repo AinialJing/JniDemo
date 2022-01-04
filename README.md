@@ -73,7 +73,45 @@ static JNINativeMethod gMethods[] = {
         return JNI_FALSE;
     }
 ~~~
-   
+## JNI层访问Java层类属性
+JNI获取属性方法      |   含义
+---------------------------
+GetFieldID(jclass clazz, const char* name, const char* sig) | 获取属性Id,形参：clazz-java类，name-java类属性名，sig-java类属性类型签名
+GetObjectField(jobject obj, jfieldID fieldID)               | 获取属性为对象的
+GetBooleanField(jobject obj, jfieldID fieldID)              | 获取类型为布尔值的属性
+GetByteField(jobject obj, jfieldID fieldID)                 | 获取类型为byte的属性
+GetCharField(jobject obj, jfieldID fieldID)                 | 获取类型为Char的属性
+GetShortField(jobject obj, jfieldID fieldID)                | 获取类型为Short的属性
+GetIntField(jobject obj, jfieldID fieldID)                  | 获取类型为Int的属性
+GetLongField(jobject obj, jfieldID fieldID)                 | 获取类型为long的属性
+GetFloatField(jobject obj, jfieldID fieldID)                | 获取类型为float的属性
+GetDoubleField(jobject obj, jfieldID fieldID)               | 获取类型为double的属性
+----------------------------------------------------------------------------------
+
+JNI设置属性方法        | 含义
+---------------------------------------------------------------------------------------------
+SetObjectField(jobject obj, jfieldID fieldID, jobject value)    | 设置类型为Object的属性值
+SetBooleanField(jobject obj, jfieldID fieldID, jobject value)    | 设置类型为Boolean的属性值
+SetByteField(jobject obj, jfieldID fieldID, jobject value)    | 设置类型为Byte的属性值
+SetCharField(jobject obj, jfieldID fieldID, jobject value)    | 设置类型为Char的属性值
+SetShortField(jobject obj, jfieldID fieldID, jobject value)    | 设置类型为Short的属性值
+SetIntField(jobject obj, jfieldID fieldID, jobject value)    | 设置类型为Int的属性值
+SetLongField(jobject obj, jfieldID fieldID, jobject value)    | 设置类型为Long的属性值
+SetFloatField(jobject obj, jfieldID fieldID, jobject value)    | 设置类型为Float的属性值
+SetDoubleField(jobject obj, jfieldID fieldID, jobject value)    | 设置类型为Double的属性值
+-------------------------------------------------------------------------------------------
+   **第一步、获取到Java类**
+~~~
+jclass jc = env->GetObjectClass(people);
+~~~  
+   **第二步、GetFieldID方法获取到Java层类属性**
+~~~
+jfieldID fidAge = env->GetFieldID(jc, "age", "I");
+~~~
+   **第三步、调用SetXXXField()方法，为java层的类属性设置值**
+~~~
+env->SetIntField(people, fidAge, 18);
+~~~
 ## 问题1：新增加的AndroidLog.h的头文件一直无法预编译<android/log.h>和<jni.h>头文件
 
 ## 解决方法：
