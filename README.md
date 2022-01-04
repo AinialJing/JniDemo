@@ -75,7 +75,7 @@ static JNINativeMethod gMethods[] = {
 ~~~
 ## JNI层访问Java层类属性
 JNI获取属性方法      |   含义
----------------------------
+-------------------|--------------------
 GetFieldID(jclass clazz, const char* name, const char* sig) | 获取属性Id,形参：clazz-java类，name-java类属性名，sig-java类属性类型签名
 GetObjectField(jobject obj, jfieldID fieldID)               | 获取属性为对象的
 GetBooleanField(jobject obj, jfieldID fieldID)              | 获取类型为布尔值的属性
@@ -86,9 +86,10 @@ GetIntField(jobject obj, jfieldID fieldID)                  | 获取类型为Int
 GetLongField(jobject obj, jfieldID fieldID)                 | 获取类型为long的属性
 GetFloatField(jobject obj, jfieldID fieldID)                | 获取类型为float的属性
 GetDoubleField(jobject obj, jfieldID fieldID)               | 获取类型为double的属性
+------------------------------------------------------------|---------------------------------------------------------------------
 
 JNI设置属性方法        | 含义
----------------------------------------------------------------------------------------------
+------------------------------------|---------------------------------------------------------
 SetObjectField(jobject obj, jfieldID fieldID, jobject value)    | 设置类型为Object的属性值
 SetBooleanField(jobject obj, jfieldID fieldID, jobject value)    | 设置类型为Boolean的属性值
 SetByteField(jobject obj, jfieldID fieldID, jobject value)    | 设置类型为Byte的属性值
@@ -98,6 +99,7 @@ SetIntField(jobject obj, jfieldID fieldID, jobject value)    | 设置类型为In
 SetLongField(jobject obj, jfieldID fieldID, jobject value)    | 设置类型为Long的属性值
 SetFloatField(jobject obj, jfieldID fieldID, jobject value)    | 设置类型为Float的属性值
 SetDoubleField(jobject obj, jfieldID fieldID, jobject value)    | 设置类型为Double的属性值
+-----------------------------------------------------------------|-----------------------------------
    **第一步、获取到Java类**
 ~~~
 jclass jc = env->GetObjectClass(people);
