@@ -87,7 +87,7 @@ GetLongField(jobject obj, jfieldID fieldID)                 | 获取类型为lon
 GetFloatField(jobject obj, jfieldID fieldID)                | 获取类型为float的属性
 GetDoubleField(jobject obj, jfieldID fieldID)               | 获取类型为double的属性
 
-
+## JNI层设置Java层类属性值
 JNI设置属性方法        | 含义
 ------------------------------------|---------------------------------------------------------
 SetObjectField(jobject obj, jfieldID fieldID, jobject value)    | 设置类型为Object的属性值
@@ -99,7 +99,6 @@ SetIntField(jobject obj, jfieldID fieldID, jobject value)    | 设置类型为In
 SetLongField(jobject obj, jfieldID fieldID, jobject value)    | 设置类型为Long的属性值
 SetFloatField(jobject obj, jfieldID fieldID, jobject value)    | 设置类型为Float的属性值
 SetDoubleField(jobject obj, jfieldID fieldID, jobject value)    | 设置类型为Double的属性值
-
 
    **第一步、获取到Java类**
 ~~~
@@ -113,6 +112,21 @@ jfieldID fidAge = env->GetFieldID(jc, "age", "I");
 ~~~
 env->SetIntField(people, fidAge, 18);
 ~~~
+
+## JNI层访问Java层类成员方法
+  **第一步、获取Java类**
+~~~
+jclass jc = env->GetObjectClass(people);
+~~~
+  **第二步、调用GetMethodID（）方法，获取jMethodID**
+~~~
+jmethodID jMethod = env->GetMethodID(jc, "doIntroduce", "()V");
+~~~
+  **第三步、调用CallVoidMethod（）方法，调用Java类成员方法**
+~~~
+ env->CallVoidMethod(people, jMethod);
+~~~
+    
 ## 问题1：新增加的AndroidLog.h的头文件一直无法预编译<android/log.h>和<jni.h>头文件
 
 ## 解决方法：

@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
                 People people = new People();
                 JniCallJavaField jniCallJavaField = new JniCallJavaField();
                 jniCallJavaField.initPeopleData(people);
-                people.doIntroduce();
             }
         });
 

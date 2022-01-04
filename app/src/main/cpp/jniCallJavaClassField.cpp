@@ -14,4 +14,7 @@ Java_com_anniljing_jnidemo_JniCallJavaField_initPeopleData(JNIEnv *env, jobject 
     env->SetIntField(people, fidAge, 18);
     jstring name = env->NewStringUTF("Jack");
     env->SetObjectField(people, fidName, name);
+
+    jmethodID jMethod = env->GetMethodID(jc, "doIntroduce", "()V");
+    env->CallVoidMethod(people, jMethod);
 }
