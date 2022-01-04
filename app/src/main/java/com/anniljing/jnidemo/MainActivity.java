@@ -22,9 +22,10 @@ public class MainActivity extends AppCompatActivity {
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                JniDynamicLoad jniDynamicLoad = new JniDynamicLoad();
-                tv.setText(jniDynamicLoad.getNativeString());
-//                tv.setText(getNativeString());
+                People people = new People();
+                JniCallJavaField jniCallJavaField = new JniCallJavaField();
+                jniCallJavaField.initPeopleData(people);
+                people.doIntroduce();
             }
         });
 
@@ -36,7 +37,4 @@ public class MainActivity extends AppCompatActivity {
      */
     public native String stringFromJNI();
 
-//    public native int sum(int x, int y);
-//
-//    public native String getNativeString();
 }

@@ -18,6 +18,12 @@ add_library(
         SHARED
         basicType.cpp
 )
+
+add_library(
+        jniCallJavaClassField-lib
+        SHARED
+        jniCallJavaClassField.cpp
+)
 find_library(
         log-lib
         log
@@ -32,5 +38,10 @@ target_link_libraries(
 )
 target_link_libraries(
         basicType-lib
+        ${log-lib}
+)
+
+target_link_libraries(
+        jniCallJavaClassField-lib
         ${log-lib}
 )
