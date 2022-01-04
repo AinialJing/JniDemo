@@ -11,6 +11,7 @@ add_library(
         jni_dynamic_load.cpp
         basicType.cpp
         jniCallJavaClassField.cpp
+        thread/jni_thread.cpp
 )
 
 
