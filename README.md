@@ -86,7 +86,6 @@ GetIntField(jobject obj, jfieldID fieldID)                  | 获取类型为Int
 GetLongField(jobject obj, jfieldID fieldID)                 | 获取类型为long的属性
 GetFloatField(jobject obj, jfieldID fieldID)                | 获取类型为float的属性
 GetDoubleField(jobject obj, jfieldID fieldID)               | 获取类型为double的属性
-----------------------------------------------------------------------------------
 
 JNI设置属性方法        | 含义
 ---------------------------------------------------------------------------------------------
@@ -99,7 +98,6 @@ SetIntField(jobject obj, jfieldID fieldID, jobject value)    | 设置类型为In
 SetLongField(jobject obj, jfieldID fieldID, jobject value)    | 设置类型为Long的属性值
 SetFloatField(jobject obj, jfieldID fieldID, jobject value)    | 设置类型为Float的属性值
 SetDoubleField(jobject obj, jfieldID fieldID, jobject value)    | 设置类型为Double的属性值
--------------------------------------------------------------------------------------------
    **第一步、获取到Java类**
 ~~~
 jclass jc = env->GetObjectClass(people);
