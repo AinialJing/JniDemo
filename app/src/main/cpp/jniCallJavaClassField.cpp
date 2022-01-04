@@ -1,6 +1,4 @@
-//
-// Created by WRTRD02 on 2022-01-04.
-//
+
 #include <jni.h>
 #include <AndroidLog.h>
 
