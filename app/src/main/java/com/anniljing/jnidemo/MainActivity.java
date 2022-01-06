@@ -16,15 +16,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Example of a call to a native method
         TextView tv = findViewById(R.id.sample_text);
         tv.setText(stringFromJNI());
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                People people = new People();
-                JniCallJavaField jniCallJavaField = new JniCallJavaField();
-                jniCallJavaField.initPeopleData(people);
+//                People people = new People();
+//                JniCallJavaField jniCallJavaField = new JniCallJavaField();
+//                jniCallJavaField.initPeopleData(people);
+                JniThread jniThread=new JniThread();
+                jniThread.createNativeThread();
+                jniThread.createNativeThreadWithArgs();
+                jniThread.joinNativeThread();
             }
         });
 
