@@ -24,10 +24,11 @@ public class MainActivity extends AppCompatActivity {
 //                People people = new People();
 //                JniCallJavaField jniCallJavaField = new JniCallJavaField();
 //                jniCallJavaField.initPeopleData(people);
-                JniThread jniThread=new JniThread();
-                jniThread.createNativeThread();
-                jniThread.createNativeThreadWithArgs();
-                jniThread.joinNativeThread();
+                JniThread jniThread = new JniThread();
+//                jniThread.createNativeThread();
+//                jniThread.createNativeThreadWithArgs();
+//                jniThread.joinNativeThread();
+                jniThread.startProductAndConsumerThread();
             }
         });
 

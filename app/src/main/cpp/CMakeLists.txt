@@ -12,6 +12,7 @@ add_library(
         basicType.cpp
         jniCallJavaClassField.cpp
         thread/jni_thread.cpp
+        thread/jni_product_and_consumer_thread.cpp
 )
 
 

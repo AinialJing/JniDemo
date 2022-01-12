@@ -6,4 +6,6 @@ public class JniThread {
     public native void createNativeThreadWithArgs();
 
     public native void joinNativeThread();
+
+    public native void startProductAndConsumerThread();
 }
