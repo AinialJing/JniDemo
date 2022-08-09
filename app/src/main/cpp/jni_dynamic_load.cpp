@@ -30,12 +30,14 @@ int registerNativeMethods(JNIEnv *env, const char *name, const JNINativeMethod *
     return JNI_TRUE;
 }
 
+#define NELEM(x) ((int)(sizeof(x)/sizeof((x)[0])))
+
 JNIEXPORT int JNICALL JNI_OnLoad(JavaVM *vm, void *reserved) {
     JNIEnv *env;
     if (vm->GetEnv(reinterpret_cast<void **>(&env), JNI_VERSION_1_6) != JNI_OK) {
         return JNI_FALSE;
     }
-    registerNativeMethods(env, JAVA_CLASS, gMethods, 2);
+    registerNativeMethods(env, JAVA_CLASS, gMethods, NELEM(gMethods));
     LOGD("Dynamic load success");
     return JNI_VERSION_1_6;
 }
