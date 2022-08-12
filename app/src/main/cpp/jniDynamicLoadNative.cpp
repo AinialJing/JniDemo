@@ -1,8 +1,8 @@
-//动态注册本地方法
+//动态注册native方法,需要c/c++中定义与native方法映射的方法
 #include <jni.h>
 #include <AndroidLog.h>
 
-#define JAVA_CLASS "com/anniljing/jnidemo/JniDynamicLoad"
+#define JAVA_CLASS "com/anniljing/jnidemo/ClassOperator/JniDynamicLoad"
 
 jint sum(JNIEnv *env, jobject jobj, int x, int y) {
     return x + y;

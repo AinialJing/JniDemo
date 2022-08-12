@@ -1,12 +1,17 @@
 package com.anniljing.jnidemo;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
+
+import com.anniljing.jnidemo.ClassOperator.JniDynamicLoad;
+import com.anniljing.jnidemo.VersionInformation.VersionInformation;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
+
     static {
         System.loadLibrary("native-lib");
     }
@@ -16,22 +21,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TextView tv = findViewById(R.id.sample_text);
-        tv.setText(stringFromJNI());
-        tv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                People people = new People();
-//                JniCallJavaField jniCallJavaField = new JniCallJavaField();
-//                jniCallJavaField.initPeopleData(people);
-                JniThread jniThread = new JniThread();
-//                jniThread.createNativeThread();
-//                jniThread.createNativeThreadWithArgs();
-//                jniThread.joinNativeThread();
-                jniThread.startProductAndConsumerThread();
-            }
-        });
-
     }
 
     /**
@@ -40,4 +29,13 @@ public class MainActivity extends AppCompatActivity {
      */
     public native String stringFromJNI();
 
+    public void findClass(View view) {
+        JniDynamicLoad dynamicLoad = new JniDynamicLoad();
+        Log.d(TAG, dynamicLoad.getNativeString());
+    }
+
+    public void toVersionInformation(View view) {
+        int versionInformation = VersionInformation.getVersionInformation();
+        Log.d(TAG, "VersionInformation:0x" + Integer.toHexString(versionInformation));
+    }
 }
