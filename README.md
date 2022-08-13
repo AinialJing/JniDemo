@@ -47,7 +47,11 @@ Java_com_anniljing_jnidemo_MainActivity_stringFromJNI(
 ## 动态注册函数 
 **原理：利用 RegisterNatives 方法来注册 java 方法与 JNI 函数的一一对应关系；**    
 **实现流程：**
-  **1、实现 JNI_OnLoad 方法，在加载动态库后，执行动态注册;**  
+  **1、实现 JNI_OnLoad 方法，该方法在jni.h的头文件中定义，其中还定义了JNI_OnUnload方法，在加载动态库后，执行动态注册;** 
+~~~c
+JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* reserved);
+JNIEXPORT void JNI_OnUnload(JavaVM* vm, void* reserved);
+~~~
 ~~~
 JNIEXPORT int JNICALL JNI_OnLoad(JavaVM *vm, void *reserved) {
 }
@@ -61,6 +65,14 @@ JNIEXPORT int JNICALL JNI_OnLoad(JavaVM *vm, void *reserved) {
     }
 ~~~
    **3、利用结构体 JNINativeMethod 数组记录 java 方法与 JNI 函数的对应关系；**
+~~~c
+typedef struct {
+    const char* name;
+    const char* signature;
+    void*       fnPtr;
+} JNINativeMethod;
+~~~
+name为java层的方法名，signature为java层的参数和返回值的类型签名，fnPtr为jni层方法名
 ~~~
 static JNINativeMethod gMethods[] = {
         {"sum",             "(II)I",                (void *) sum},

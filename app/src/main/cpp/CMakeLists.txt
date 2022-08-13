@@ -8,11 +8,12 @@ add_library(
         base/jvm.cpp
         base/AndroidLog.cpp
         native-lib.cpp
-        jni_dynamic_load.cpp
+        jniDynamicLoadNative.cpp
         basicType.cpp
         jniCallJavaClassField.cpp
         thread/jni_thread.cpp
         thread/jni_product_and_consumer_thread.cpp
+        VersionInformation/VersionInformation.cpp
 )
 
 
