@@ -6,11 +6,15 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.anniljing.jnidemo.ClassFieldOperator.ClassStaticFieldOperator;
+import com.anniljing.jnidemo.ClassOperator.FindClassForJava;
 import com.anniljing.jnidemo.ClassOperator.JniDynamicLoad;
+import com.anniljing.jnidemo.JavaClassOperator.JniOperatorJavaClass;
 import com.anniljing.jnidemo.VersionInformation.VersionInformation;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
+
     static {
         System.loadLibrary("native-lib");
     }
@@ -35,5 +39,21 @@ public class MainActivity extends AppCompatActivity {
     public void toVersionInformation(View view) {
         int versionInformation = VersionInformation.getVersionInformation();
         Log.d(TAG, "VersionInformation:0x" + Integer.toHexString(versionInformation));
+    }
+
+    public void findJavaClass(View view) {
+        FindClassForJava forJava = new FindClassForJava();
+        Animal animal = forJava.InitAnimal();
+        Log.d(TAG, "Hash:" + animal.hashCode());
+        Log.d(TAG, animal.toString());
+
+        JavaClass javaClass = JniOperatorJavaClass.operatorJavaClass();
+        Log.d(TAG, "JavaClass:" + javaClass);
+    }
+
+    public void setStaticField(View view) {
+        StaticFieldClass staticFieldClass = new StaticFieldClass();
+        ClassStaticFieldOperator.setClassStaticField(staticFieldClass);
+        Log.d(TAG, "getStaticField:" + ClassStaticFieldOperator.getClassStaticField(staticFieldClass));
     }
 }

@@ -21,6 +21,8 @@ int registerNativeMethods(JNIEnv *env, const char *name, const JNINativeMethod *
                           jint nMethods) {
     jclass jcls;
     jcls = env->FindClass(name);
+    jclass super=env->GetSuperclass(jcls);
+//    LOGD("registerNativeMethods:%s",super);
     if (jcls == nullptr) {
         return JNI_FALSE;
     }

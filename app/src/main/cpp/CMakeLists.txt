@@ -14,6 +14,8 @@ add_library(
         thread/jni_thread.cpp
         thread/jni_product_and_consumer_thread.cpp
         VersionInformation/VersionInformation.cpp
+        JavaClassOperator/JavaClassOperator.cpp
+        ClassStaticFieldOperator/ClassStaticFieldOperator.cpp
 )
 
 

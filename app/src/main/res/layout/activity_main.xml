@@ -16,5 +16,16 @@
        android:layout_height="60dp"
        android:text="ToClassOperatorActivity"
        android:onClick="findClass"/>
+   <Button
+       android:layout_width="200dp"
+       android:layout_height="60dp"
+       android:text="findJavaClass"
+       android:onClick="findJavaClass"/>
+
+   <Button
+       android:layout_width="200dp"
+       android:layout_height="60dp"
+       android:text="StaticField"
+       android:onClick="setStaticField"/>
 
 </LinearLayout>
