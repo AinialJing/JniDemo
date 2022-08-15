@@ -18,6 +18,8 @@ add_library(
         ClassFieldOperator/ClassStaticFieldOperator.cpp
         ClassFieldOperator/ClassFieldOperator.cpp
         ClassMethodOperator/ClassMethodOPerator.cpp
+        HandleException/HandleException.cpp
+        StringHandle/StringHandle.cpp
 )
 
 

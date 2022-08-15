@@ -8,8 +8,10 @@ import com.anniljing.jnidemo.ClassFieldOperator.ClassFieldOperator;
 import com.anniljing.jnidemo.ClassFieldOperator.ClassStaticFieldOperator;
 import com.anniljing.jnidemo.ClassOperator.JniDynamicLoad;
 import com.anniljing.jnidemo.JavaClassOperator.JniOperatorJavaClass;
+import com.anniljing.jnidemo.StringHandle.StringHandle;
 import com.anniljing.jnidemo.VersionInformation.VersionInformation;
 import com.anniljing.jnidemo.classMethodOperator.ClassMethodOperator;
+import com.anniljing.jnidemo.exception.HandleException;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -67,5 +69,17 @@ public class MainActivity extends AppCompatActivity {
     public void setStaticMethod(View view) {
         JavaClass javaClass = ClassMethodOperator.operatorClassStaticMethod();
         Log.d(TAG, javaClass.toString());
+    }
+
+    public void handleException(View view) {
+        try {
+            HandleException.handleJniExeption();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void handleString(View view) {
+        StringHandle.stringHandle();
     }
 }

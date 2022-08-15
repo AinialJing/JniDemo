@@ -43,5 +43,16 @@
        android:layout_height="60dp"
        android:text="staticMethod"
        android:onClick="setStaticMethod"/>
+   <Button
+       android:layout_width="200dp"
+       android:layout_height="60dp"
+       android:text="handleException"
+       android:onClick="handleException"/>
+
+   <Button
+       android:layout_width="200dp"
+       android:layout_height="60dp"
+       android:text="handleString"
+       android:onClick="handleString"/>
 
 </LinearLayout>
