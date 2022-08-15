@@ -28,4 +28,20 @@
        android:text="StaticField"
        android:onClick="setStaticField"/>
 
+   <Button
+       android:layout_width="200dp"
+       android:layout_height="60dp"
+       android:text="normalField"
+       android:onClick="setNormalField"/>
+   <Button
+       android:layout_width="200dp"
+       android:layout_height="60dp"
+       android:text="normalMethod"
+       android:onClick="setNormalMethod"/>
+   <Button
+       android:layout_width="200dp"
+       android:layout_height="60dp"
+       android:text="staticMethod"
+       android:onClick="setStaticMethod"/>
+
 </LinearLayout>

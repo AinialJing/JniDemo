@@ -4,13 +4,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import com.anniljing.jnidemo.ClassFieldOperator.ClassFieldOperator;
 import com.anniljing.jnidemo.ClassFieldOperator.ClassStaticFieldOperator;
-import com.anniljing.jnidemo.ClassOperator.FindClassForJava;
 import com.anniljing.jnidemo.ClassOperator.JniDynamicLoad;
 import com.anniljing.jnidemo.JavaClassOperator.JniOperatorJavaClass;
 import com.anniljing.jnidemo.VersionInformation.VersionInformation;
+import com.anniljing.jnidemo.classMethodOperator.ClassMethodOperator;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -42,11 +43,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void findJavaClass(View view) {
-        FindClassForJava forJava = new FindClassForJava();
-        Animal animal = forJava.InitAnimal();
-        Log.d(TAG, "Hash:" + animal.hashCode());
-        Log.d(TAG, animal.toString());
-
         JavaClass javaClass = JniOperatorJavaClass.operatorJavaClass();
         Log.d(TAG, "JavaClass:" + javaClass);
     }
@@ -55,5 +51,21 @@ public class MainActivity extends AppCompatActivity {
         StaticFieldClass staticFieldClass = new StaticFieldClass();
         ClassStaticFieldOperator.setClassStaticField(staticFieldClass);
         Log.d(TAG, "getStaticField:" + ClassStaticFieldOperator.getClassStaticField(staticFieldClass));
+    }
+
+    public void setNormalField(View view) {
+        ClassFieldOperator classFieldOperator = new ClassFieldOperator();
+        JavaClass javaClass = classFieldOperator.classFieldOperator();
+        Log.d(TAG, javaClass.toString());
+    }
+
+    public void setNormalMethod(View view) {
+        JavaClass javaClass = ClassMethodOperator.operatorClassMethod();
+        Log.d(TAG, javaClass.toString());
+    }
+
+    public void setStaticMethod(View view) {
+        JavaClass javaClass = ClassMethodOperator.operatorClassStaticMethod();
+        Log.d(TAG, javaClass.toString());
     }
 }

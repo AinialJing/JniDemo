@@ -4,7 +4,7 @@ import android.util.Log;
 
 public class JavaClass {
     public static String name;
-    private String version;
+    private String version="hello";
     private static int sCode;
 
     public JavaClass() {
