@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.anniljing.jnidemo.ArrayHandle.ArrayHandle;
 import com.anniljing.jnidemo.ClassFieldOperator.ClassFieldOperator;
 import com.anniljing.jnidemo.ClassFieldOperator.ClassStaticFieldOperator;
 import com.anniljing.jnidemo.ClassOperator.JniDynamicLoad;
@@ -81,5 +82,18 @@ public class MainActivity extends AppCompatActivity {
 
     public void handleString(View view) {
         StringHandle.stringHandle();
+    }
+
+    public void handleArray(View view) {
+        int[] arrayData = ArrayHandle.getArrayData();
+        for (int i = 0; i < arrayData.length; i++) {
+            Log.d(TAG, "Native生成的数据：" + arrayData[i]);
+        }
+
+        int[] javaData={1,3,5,7,9};
+        int[] destData = ArrayHandle.handleJavaArray(javaData);
+        for (int i = 0; i < destData.length; i++) {
+            Log.d(TAG, "Native转换后的数据：" + destData[i]);
+        }
     }
 }

@@ -20,6 +20,7 @@ add_library(
         ClassMethodOperator/ClassMethodOPerator.cpp
         HandleException/HandleException.cpp
         StringHandle/StringHandle.cpp
+        ArrayHandle/ArrayHandle.cpp
 )
 
 

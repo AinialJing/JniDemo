@@ -55,4 +55,10 @@
        android:text="handleString"
        android:onClick="handleString"/>
 
+   <Button
+       android:layout_width="200dp"
+       android:layout_height="60dp"
+       android:text="handleArray"
+       android:onClick="handleArray"/>
+
 </LinearLayout>
