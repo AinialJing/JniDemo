@@ -4,11 +4,11 @@ import android.util.Log;
 
 public class JavaClass {
     public static String name;
-    private String version="hello";
+    private String version = "hello";
     private static int sCode;
 
     public JavaClass() {
-        Log.d("MainActivity","Init JavaClass");
+        Log.d("MainActivity", "Init JavaClass");
     }
 
     public String getVersion() {
@@ -19,14 +19,20 @@ public class JavaClass {
         this.version = version;
     }
 
-    public static void setCode(int code){
-        sCode=code;
+    public static void setCode(int code) {
+        sCode = code;
     }
 
     @Override
     public String toString() {
         return "JavaClass{" +
-                "version='" + version + '\''+"Code="+sCode+'\'' +
+                "version='" + version + '\'' + "Code=" + sCode + '\'' +
                 '}';
+    }
+
+    public void getResulte() {
+        int data[]=new int[2];
+        data[3]=5;
+        Log.d("JavaClass", "getResulte");
     }
 }

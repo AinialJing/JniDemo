@@ -1,5 +1,6 @@
 #include <jni.h>
 #include <AndroidLog.h>
+#include <string.h>
 
 extern "C"
 JNIEXPORT jintArray JNICALL
@@ -33,4 +34,25 @@ Java_com_anniljing_jnidemo_ArrayHandle_ArrayHandle_handleJavaArray(JNIEnv *env, 
     //将buf数据复制到result里面
     env->SetIntArrayRegion(result, 0, 2, buf);
     return result;
+}
+extern "C"
+JNIEXPORT jobjectArray JNICALL
+Java_com_anniljing_jnidemo_ArrayHandle_ArrayHandle_handleStringArray(JNIEnv *env, jclass clazz,
+                                                                     jobjectArray src_data) {
+    jint len = env->GetArrayLength(src_data);
+    jboolean isCopy = false;
+    for (int i = 0; i < len; ++i) {
+        const char *content = NULL;
+        jstring element = static_cast<jstring>(env->GetObjectArrayElement(src_data, i));
+        content = env->GetStringUTFChars(element, &isCopy);
+        const size_t contentLen = strlen(content);
+        char *replace = new char[contentLen + 1];
+        strncpy(replace, content, contentLen);
+        memcpy(replace, "李", strlen("李"));
+        jstring last = env->NewStringUTF(replace);
+        env->SetObjectArrayElement(src_data, i, last);
+        LOGD("Replace content:%s", replace);
+        delete[] replace;
+    }
+    return src_data;
 }

@@ -4,4 +4,7 @@ public class ArrayHandle {
     public static native int[] getArrayData();
 
     public static native int[] handleJavaArray(int[] srcData);
+
+    public static native String[] handleStringArray(String[] srcData);
+
 }
