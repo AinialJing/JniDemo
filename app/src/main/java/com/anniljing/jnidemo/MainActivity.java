@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void handleString(View view) {
-        StringHandle.stringHandle();
+        StringHandle.stringUTFHandle();
     }
 
     public void handleArray(View view) {
@@ -108,6 +108,18 @@ public class MainActivity extends AppCompatActivity {
         }
         for (int i = 0; i < names.length; i++) {
             Log.d(TAG, names[i]);
+        }
+
+        JavaClass[] javaClasses = new JavaClass[10];
+        int len = javaClasses.length;
+        for (int i = 0; i < len; i++) {
+            JavaClass javaClass = new JavaClass();
+            javaClass.setVersion("java version:1.0." + i);
+            javaClasses[i] = javaClass;
+        }
+        JavaClass[] objects = (JavaClass[]) ArrayHandle.handleObjectArray(javaClasses);
+        for (int i = 0; i < objects.length; i++) {
+            Log.d(TAG, objects[i].getVersion());
         }
     }
 }

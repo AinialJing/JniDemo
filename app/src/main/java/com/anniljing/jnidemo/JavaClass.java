@@ -7,10 +7,6 @@ public class JavaClass {
     private String version = "hello";
     private static int sCode;
 
-    public JavaClass() {
-        Log.d("MainActivity", "Init JavaClass");
-    }
-
     public String getVersion() {
         return version;
     }

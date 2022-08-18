@@ -1,6 +1,7 @@
 #include <jni.h>
 #include <AndroidLog.h>
 #include <string.h>
+#include <stdlib.h>
 
 extern "C"
 JNIEXPORT jintArray JNICALL
@@ -11,12 +12,10 @@ Java_com_anniljing_jnidemo_ArrayHandle_ArrayHandle_getArrayData(JNIEnv *env, jcl
     LOGD("Before GetIntArrayElements element[0]:%d", *element);
     jint len = env->GetArrayLength(intArray);
     for (int i = 0; i < len; ++i) {
-        *element = (i * 10 + 1);
-        LOGD("For intArray:address(%p),value(%d)", element, *element);
-        element++;
+        *(element + i) = (i * 10 + 1);
+        LOGD("For intArray:address(%p),value(%d)", (element + i), *(element + i));
+        LOGD("elment address:%p", element);
     }
-    element = element - len;
-    LOGD("After GetIntArrayElements:%d", *element);
     env->ReleaseIntArrayElements(intArray, element, 0);
     return intArray;
 }
@@ -55,4 +54,31 @@ Java_com_anniljing_jnidemo_ArrayHandle_ArrayHandle_handleStringArray(JNIEnv *env
         delete[] replace;
     }
     return src_data;
+}
+
+extern "C"
+JNIEXPORT jobjectArray JNICALL
+Java_com_anniljing_jnidemo_ArrayHandle_ArrayHandle_handleObjectArray(JNIEnv *env, jclass clazz,
+                                                                     jobjectArray objects) {
+    jclass javaClass = env->FindClass("com/anniljing/jnidemo/JavaClass");
+    int len = env->GetArrayLength(objects);
+    for (int i = 0; i < len; ++i) {
+        jobject javaJObject = env->GetObjectArrayElement(objects, i);
+        jfieldID versionField = env->GetFieldID(javaClass, "version", "Ljava/lang/String;");
+        jstring versionValue = static_cast<jstring>(env->GetObjectField(javaJObject, versionField));
+        const char *_version = NULL;
+        _version = env->GetStringUTFChars(versionValue, NULL);
+        LOGD("%s", _version);
+        char *nativeVersion = new char[30];
+        strcpy(nativeVersion, "Native version v1.0.");
+        char *index = new char[10];
+        sprintf(index, "%d", i);
+        strcat(nativeVersion, index);
+
+        jmethodID setVersion = env->GetMethodID(javaClass, "setVersion", "(Ljava/lang/String;)V");
+        env->CallVoidMethod(javaJObject, setVersion, env->NewStringUTF(nativeVersion));
+        env->SetObjectArrayElement(objects, i, javaJObject);
+    }
+
+    return objects;
 }

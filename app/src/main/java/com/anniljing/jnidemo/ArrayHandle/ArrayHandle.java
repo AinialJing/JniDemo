@@ -7,4 +7,6 @@ public class ArrayHandle {
 
     public static native String[] handleStringArray(String[] srcData);
 
+    public static native Object[] handleObjectArray(Object[] objects);
+
 }
