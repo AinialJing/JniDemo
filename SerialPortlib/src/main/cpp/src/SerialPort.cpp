@@ -232,7 +232,7 @@ int SerialPort::readData(BYTE *data, int size) {
 
 int SerialPort::writeData(BYTE *data, int size) {
     int result;
-    result = static_cast<int>(write(fd, data, static_cast<size_t>(len)));
+    result = static_cast<int>(write(fd, data, static_cast<size_t>(size)));
     return TRUE;
 }
 
