@@ -1,5 +1,6 @@
 package com.anniljing.jnidemo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -121,5 +122,9 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < objects.length; i++) {
             Log.d(TAG, objects[i].getVersion());
         }
+    }
+
+    public void fileOperator(View view) {
+        startActivity(new Intent(this, FileOperatorActivity.class));
     }
 }

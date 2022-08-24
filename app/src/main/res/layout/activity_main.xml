@@ -60,5 +60,10 @@
        android:layout_height="60dp"
        android:text="handleArray"
        android:onClick="handleArray"/>
+   <Button
+       android:layout_width="200dp"
+       android:layout_height="60dp"
+       android:text="Unix文件操作"
+       android:onClick="fileOperator"/>
 
 </LinearLayout>

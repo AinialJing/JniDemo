@@ -84,7 +84,7 @@ int SerialPort::setSpeed(int fd, int speed) {
     b_speed = getBaudRate(speed);
     //获取属性
     if (tcgetattr(fd, &cfg)) {
-        LOGD("tcgetattr failed");
+        LOGD("Get attr failed");
         close(fd);
         return FALSE;
     }
@@ -245,10 +245,10 @@ int SerialPort::setMode(int mode) {
     if (mode != 0) {
         if (mode == 1) {
             options.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);   //input
-            options.c_oflag &= ~OPOST;                            //out put
+            options.c_oflag &= ~OPOST;                            //output
         } else if (mode == 2) {
             options.c_lflag |= (ICANON | ECHO | ECHOE | ISIG);    //input
-            options.c_oflag |= OPOST;                             //out put
+            options.c_oflag |= OPOST;                             //output
         }
         if (tcsetattr(fd, TCSANOW, &options) != 0) {
             LOGE("The method tcsetattr exception!");

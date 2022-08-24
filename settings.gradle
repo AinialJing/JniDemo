@@ -1,3 +1,5 @@
 include ':app'
 rootProject.name = "JniDemo"
 include ':SerialPortlib'
+include ':UnixLearn'
+include ':base'
