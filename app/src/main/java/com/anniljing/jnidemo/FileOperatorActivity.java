@@ -86,6 +86,9 @@ public class FileOperatorActivity extends BaseActivity<ActivityFileOperatorBindi
     public void readData(byte[] data) {
         String content = new String(data);
         Log.d(TAG,content);
-        mBinding.tvFileContent.setText("" + content);
+        Log.d(TAG,"Thread:"+Thread.currentThread().getName());
+       runOnUiThread(() ->{
+           mBinding.tvFileContent.setText("" + content);
+       });
     }
 }

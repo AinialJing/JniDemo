@@ -1,6 +1,30 @@
 #include "FileOperator.h"
 
+struct ThreadArgs{
+    int fd;
+};
+void * readData(void *arg){
+    ThreadArgs *threadArgs=static_cast<ThreadArgs*>(arg);
+    int fd=threadArgs->fd;
+    char *buff = new char[20];
+    int len = read(fd, buff, 20);
+    LOGD("read file 1:len=%d", len);
+    if (len > 0) {
+        JNIEnv *env;
+        // 获取当前线程的 env
+        jvm_g->AttachCurrentThread(&env, NULL);
+        jclass native = env->GetObjectClass(obj_g);
+        jbyteArray arr;
+        arr = env->NewByteArray(len);
+        if (NULL != buff) {
+            env->SetByteArrayRegion(arr, 0, len, (const jbyte *) buff);
+        }
+        jmethodID callBack = env->GetMethodID(native, "readCallBack", "([B)V");
+        env->CallVoidMethod(obj_g, callBack, arr);
 
+        jvm_g->DetachCurrentThread();
+    }
+}
 FileOperator::FileOperator() {}
 
 FileOperator::FileOperator(const char *path) {
@@ -59,23 +83,12 @@ int FileOperator::openFile(const char *fileName) {
 }
 
 int FileOperator::readFile(const int fd) {
-    char *buff = new char[20];
-    int len = read(fd, buff, 20);
-    LOGD("read file 1:len=%d", len);
-    if (len > 0) {
-        JNIEnv *env;
-        // 获取当前线程的 env
-        jvm_g->AttachCurrentThread(&env, NULL);
-        jclass native = env->GetObjectClass(obj_g);
-        jbyteArray arr;
-        arr = env->NewByteArray(len);
-        if (NULL != buff) {
-            env->SetByteArrayRegion(arr, 0, len, (const jbyte *) buff);
-        }
-        LOGD("read file 2");
-        jmethodID callBack = env->GetMethodID(native, "readCallBack", "([B)V");
-        LOGD("read file 3 data len %d", env->GetArrayLength(arr));
-        env->CallVoidMethod(obj_g, callBack, arr);
+   pthread_t handle;
+   ThreadArgs *threadArgs=new ThreadArgs;
+   threadArgs->fd=fd;
+   int result= pthread_create(&handle,nullptr,readData,threadArgs);
+    if (result==0){
+        LOGD("create read file data thread success");
     }
 }
 
@@ -91,3 +104,4 @@ int FileOperator::lseekFile(const int fd) {
 int FileOperator::closeFile(const int fd) {
     return close(fd);
 }
+

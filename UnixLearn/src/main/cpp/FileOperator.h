@@ -4,6 +4,7 @@
 #include <jni.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <pthread.h>
 #include <sys/stat.h>
 #include <string.h>
 #include "UnixLog.h"
