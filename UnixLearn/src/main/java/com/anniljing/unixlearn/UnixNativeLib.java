@@ -1,20 +1,33 @@
 package com.anniljing.unixlearn;
 
 public class UnixNativeLib {
+    private FileCallBack mCallBack;
 
     static {
         System.loadLibrary("unixlearn");
     }
 
-    public static native int creatFile(String path);
+    public native void initLib();
 
-    public static native int openFile(String path);
+    public native int creatFile(String path, String fileName);
 
-    public static native int readFile(String file);
+    public native int openFile(String path, String fileName);
 
-    public static native int writeFile(byte[] data);
+    public native void readFile(int fd);
 
-    public static native int lseekFile(byte[] data);
+    public native int writeFile(int fd, byte[] data, int size);
 
-    public static native int closeFile(String file);
+    public native int lseekFile(int fd);
+
+    public native int closeFile(int fd);
+
+    public void readCallBack(byte[] data) {
+        if (mCallBack != null) {
+            mCallBack.readData(data);
+        }
+    }
+
+    public void setCallBack(FileCallBack callBack) {
+        mCallBack = callBack;
+    }
 }

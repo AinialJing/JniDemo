@@ -1,29 +1,37 @@
 #ifndef JNIDEMO_FILEOPERATOR_H
 #define JNIDEMO_FILEOPERATOR_H
 
+#include <jni.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <sys/stat.h>
+#include <string.h>
 #include "UnixLog.h"
+
+//为了在线程中调用java方法
+extern JavaVM *jvm_g;
+extern jobject obj_g;
 
 class FileOperator {
 private:
-    const char *path;
+    const char *direct;
+    const char *fileName;
 public:
     FileOperator();
 
-    FileOperator(const char *path);
+    FileOperator(const char *direct);
 
-    int createFile();
+    int createFile(const char *fileName);
 
-    int openFile();
+    int openFile(const char *fileName);
 
-    int readFile();
+    int readFile(const int fd);
 
-    int writeFile();
+    int writeFile(const int fd, unsigned char *data, int size);
 
-    int lseekFile();
+    int lseekFile(const int fd);
 
-    int closeFile();
+    int closeFile(const int fd);
 };
 
 
