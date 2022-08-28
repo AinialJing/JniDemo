@@ -1,30 +1,39 @@
 #include "FileOperator.h"
 
-struct ThreadArgs{
+struct ThreadArgs {
     int fd;
 };
-void * readData(void *arg){
-    ThreadArgs *threadArgs=static_cast<ThreadArgs*>(arg);
-    int fd=threadArgs->fd;
-    char *buff = new char[20];
-    int len = read(fd, buff, 20);
-    LOGD("read file 1:len=%d", len);
-    if (len > 0) {
-        JNIEnv *env;
-        // 获取当前线程的 env
-        jvm_g->AttachCurrentThread(&env, NULL);
-        jclass native = env->GetObjectClass(obj_g);
-        jbyteArray arr;
-        arr = env->NewByteArray(len);
-        if (NULL != buff) {
-            env->SetByteArrayRegion(arr, 0, len, (const jbyte *) buff);
-        }
-        jmethodID callBack = env->GetMethodID(native, "readCallBack", "([B)V");
-        env->CallVoidMethod(obj_g, callBack, arr);
 
-        jvm_g->DetachCurrentThread();
+void *readData(void *arg) {
+    JNIEnv *env;
+    // 获取当前线程的 env
+    jvm_g->AttachCurrentThread(&env, NULL);
+    jclass native = env->GetObjectClass(obj_g);
+    jmethodID callBack = env->GetMethodID(native, "readCallBack", "([B)V");
+    jbyteArray arr;
+
+    ThreadArgs *threadArgs = static_cast<ThreadArgs *>(arg);
+    int fd = threadArgs->fd;
+    //SEEK_END 文件指针移到文件尾
+    int total = lseek(fd, 0, SEEK_END);
+    LOGD("total is %d",total);
+    const int readLen=total;
+    char *buff = new char[readLen];
+    //SEEK_SET  文件指针移到文件开头
+    lseek(fd,0,SEEK_SET);
+    //read方法会读取后文件指针自动移动
+    int len = read(fd, buff, readLen);
+    LOGD("Read len:%d",len);
+    arr = env->NewByteArray(len);
+    if (NULL != buff) {
+        env->SetByteArrayRegion(arr, 0, len, (const jbyte *) buff);
     }
+    env->CallVoidMethod(obj_g, callBack, arr);
+    jvm_g->DetachCurrentThread();
+    //一定要有返回值，否则会发生异常
+    return NULL;
 }
+
 FileOperator::FileOperator() {}
 
 FileOperator::FileOperator(const char *path) {
@@ -83,13 +92,14 @@ int FileOperator::openFile(const char *fileName) {
 }
 
 int FileOperator::readFile(const int fd) {
-   pthread_t handle;
-   ThreadArgs *threadArgs=new ThreadArgs;
-   threadArgs->fd=fd;
-   int result= pthread_create(&handle,nullptr,readData,threadArgs);
-    if (result==0){
+    pthread_t handle;
+    ThreadArgs *threadArgs = new ThreadArgs;
+    threadArgs->fd = fd;
+    int result = pthread_create(&handle, nullptr, readData, threadArgs);
+    if (result == 0) {
         LOGD("create read file data thread success");
     }
+    return result;
 }
 
 int FileOperator::writeFile(const int fd, unsigned char *data, int size) {
