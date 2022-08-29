@@ -12,7 +12,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".FileOperatorActivity">
-
+        <Switch
+            android:id="@+id/switchState"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="文件IO"
+            android:checked="true"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="80dp"
@@ -39,6 +44,13 @@
                 android:layout_height="40dp"
                 android:layout_marginLeft="15dp"
                 android:text="定位" />
+            <Button
+                android:id="@+id/btnGetFileInfo"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="15dp"
+                android:text="文件信息" />
+
         </LinearLayout>
 
         <EditText

@@ -1,5 +1,5 @@
-#ifndef JNIDEMO_FILEOPERATOR_H
-#define JNIDEMO_FILEOPERATOR_H
+#ifndef JNIDEMO_FILEIOOPERATOR_H
+#define JNIDEMO_FILEIOOPERATOR_H
 
 #include <jni.h>
 #include <unistd.h>
@@ -13,16 +13,18 @@
 extern JavaVM *jvm_g;
 extern jobject obj_g;
 
-class FileOperator {
+class FileIOOperator {
 private:
     const char *direct;
     const char *fileName;
 public:
-    FileOperator();
+    FileIOOperator();
 
-    FileOperator(const char *direct);
+    FileIOOperator(const char *direct);
 
     int createFile(const char *fileName);
+
+    int getFileInfo(const char *filePath, struct stat *info);
 
     int openFile(const char *fileName);
 
@@ -36,4 +38,4 @@ public:
 };
 
 
-#endif //JNIDEMO_FILEOPERATOR_H
+#endif //JNIDEMO_FILEIOOPERATOR_H

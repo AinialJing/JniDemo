@@ -1,4 +1,4 @@
-#include "FileOperator.h"
+#include "FileIOOperator.h"
 
 struct ThreadArgs {
     int fd;
@@ -16,14 +16,14 @@ void *readData(void *arg) {
     int fd = threadArgs->fd;
     //SEEK_END 文件指针移到文件尾
     int total = lseek(fd, 0, SEEK_END);
-    LOGD("total is %d",total);
-    const int readLen=total;
+    LOGD("total is %d", total);
+    const int readLen = total;
     char *buff = new char[readLen];
     //SEEK_SET  文件指针移到文件开头
-    lseek(fd,0,SEEK_SET);
+    lseek(fd, 0, SEEK_SET);
     //read方法会读取后文件指针自动移动
     int len = read(fd, buff, readLen);
-    LOGD("Read len:%d",len);
+    LOGD("Read len:%d", len);
     arr = env->NewByteArray(len);
     if (NULL != buff) {
         env->SetByteArrayRegion(arr, 0, len, (const jbyte *) buff);
@@ -34,15 +34,15 @@ void *readData(void *arg) {
     return NULL;
 }
 
-FileOperator::FileOperator() {}
+FileIOOperator::FileIOOperator() {}
 
-FileOperator::FileOperator(const char *path) {
-    FileOperator::direct = path;
+FileIOOperator::FileIOOperator(const char *path) {
+    FileIOOperator::direct = path;
 }
 
-int FileOperator::createFile(const char *fileName) {
+int FileIOOperator::createFile(const char *fileName) {
     LOGI("create file director is:%s", direct);
-    FileOperator::fileName = fileName;
+    FileIOOperator::fileName = fileName;
     LOGD("create director path %s", direct);
     struct stat sb;
     //判断目录是否存在，如果存在则返回0；不存在返回-1
@@ -77,7 +77,14 @@ int FileOperator::createFile(const char *fileName) {
 
 }
 
-int FileOperator::openFile(const char *fileName) {
+int FileIOOperator::getFileInfo(const char *filePath, struct stat *info) {
+    LOGD("getFileInfo path:%s", filePath);
+    int ret=stat(filePath,info);
+    LOGD("Get File size:%d",info->st_size);
+    return ret;
+}
+
+int FileIOOperator::openFile(const char *fileName) {
     const int len = (sizeof(direct) / sizeof(direct[0])) + (sizeof(fileName) / sizeof(fileName[0]));
     char *buffer = new char[len + 1];
     strcpy(buffer, direct);
@@ -91,7 +98,7 @@ int FileOperator::openFile(const char *fileName) {
     return ret;
 }
 
-int FileOperator::readFile(const int fd) {
+int FileIOOperator::readFile(const int fd) {
     pthread_t handle;
     ThreadArgs *threadArgs = new ThreadArgs;
     threadArgs->fd = fd;
@@ -102,16 +109,16 @@ int FileOperator::readFile(const int fd) {
     return result;
 }
 
-int FileOperator::writeFile(const int fd, unsigned char *data, int size) {
+int FileIOOperator::writeFile(const int fd, unsigned char *data, int size) {
     int ret = write(fd, data, size);
     return ret;
 }
 
-int FileOperator::lseekFile(const int fd) {
+int FileIOOperator::lseekFile(const int fd) {
     return lseek(fd, 0, SEEK_END);
 }
 
-int FileOperator::closeFile(const int fd) {
+int FileIOOperator::closeFile(const int fd) {
     return close(fd);
 }
 

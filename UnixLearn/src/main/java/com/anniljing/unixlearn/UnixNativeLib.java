@@ -11,6 +11,8 @@ public class UnixNativeLib {
 
     public native int creatFile(String path, String fileName);
 
+    public native FileInfo getFileInfo(String path);
+
     public native int openFile(String path, String fileName);
 
     public native void readFile(int fd);
@@ -30,4 +32,8 @@ public class UnixNativeLib {
     public void setCallBack(FileCallBack callBack) {
         mCallBack = callBack;
     }
+
+    public native long openStreamFile(String fileName);
+    public native int writeStreamFile(long file,byte[] data);
+    public native int closeStreamFile(long file);
 }

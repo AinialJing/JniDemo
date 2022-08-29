@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.anniljing.jnidemo.databinding.ActivityFileOperatorBinding;
 import com.anniljing.unixlearn.FileCallBack;
+import com.anniljing.unixlearn.FileInfo;
 import com.anniljing.unixlearn.UnixNativeLib;
 
 import java.util.List;
@@ -16,8 +17,10 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class FileOperatorActivity extends BaseActivity<ActivityFileOperatorBinding> implements EasyPermissions.PermissionCallbacks, FileCallBack {
     private static final String TAG = "FileOperatorActivity";
     private static final String DIRECTOR = Environment.getExternalStorageDirectory() + "/unix/";
+    private static final String FILE_NAME = "text.txt";
     private int fd;
     private UnixNativeLib mUnixNativeLib;
+    private long streamFile;
 
     @Override
     protected int getLayoutId() {
@@ -38,20 +41,37 @@ public class FileOperatorActivity extends BaseActivity<ActivityFileOperatorBindi
 
     @Override
     protected void setListener() {
-        mBinding.btnCreateFile.setOnClickListener((view) -> mUnixNativeLib.creatFile(DIRECTOR, "text.txt"));
-        mBinding.btnOpenFile.setOnClickListener((view) -> fd = mUnixNativeLib.openFile(DIRECTOR, "text.txt"));
+        mBinding.btnCreateFile.setOnClickListener((view) -> mUnixNativeLib.creatFile(DIRECTOR, FILE_NAME));
+        mBinding.btnOpenFile.setOnClickListener((view) -> {
+            boolean isChecked = mBinding.switchState.isChecked();
+            if (isChecked) {
+                fd = mUnixNativeLib.openFile(DIRECTOR, FILE_NAME);
+            } else {
+                streamFile = mUnixNativeLib.openStreamFile(DIRECTOR + FILE_NAME);
+                Log.d(TAG, "openStreamFile:" + streamFile);
+            }
+        });
         mBinding.btnSeekFile.setOnClickListener((view) -> {
             int index = mUnixNativeLib.lseekFile(fd);
             Log.d(TAG, "Index:" + index);
         });
+        mBinding.btnGetFileInfo.setOnClickListener((view) -> {
+            FileInfo fileInfo = mUnixNativeLib.getFileInfo(DIRECTOR + FILE_NAME);
+            Log.e(TAG, "FileInfo:" + fileInfo);
+        });
         mBinding.btnWriteFile.setOnClickListener((view) -> {
             byte[] data = mBinding.etContent.getText().toString().getBytes();
-            int ret = mUnixNativeLib.writeFile(fd, data, data.length);
-            if (ret == data.length) {
-                mBinding.etContent.setText("");
+            if (mBinding.switchState.isChecked()) {
+                int ret = mUnixNativeLib.writeFile(fd, data, data.length);
+                if (ret == data.length) {
+                    mBinding.etContent.setText("");
+                } else {
+                    Log.d(TAG, "写入错误：" + ret);
+                }
             } else {
-                Log.d(TAG, "写入错误：" + ret);
+                mUnixNativeLib.writeStreamFile(streamFile, data);
             }
+
         });
         mBinding.btnReadFile.setOnClickListener((view) -> {
             if (mUnixNativeLib != null) {
@@ -79,16 +99,20 @@ public class FileOperatorActivity extends BaseActivity<ActivityFileOperatorBindi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mUnixNativeLib.closeFile(fd);
+        if (mBinding.switchState.isChecked()) {
+            mUnixNativeLib.closeFile(fd);
+        } else {
+            mUnixNativeLib.closeStreamFile(streamFile);
+        }
     }
 
     @Override
     public void readData(byte[] data) {
         String content = new String(data);
-        Log.d(TAG,content);
-        Log.d(TAG,"Thread:"+Thread.currentThread().getName());
-       runOnUiThread(() ->{
-           mBinding.tvFileContent.setText("" + content);
-       });
+        Log.d(TAG, content);
+        Log.d(TAG, "Thread:" + Thread.currentThread().getName());
+        runOnUiThread(() -> {
+            mBinding.tvFileContent.setText("" + content);
+        });
     }
 }
