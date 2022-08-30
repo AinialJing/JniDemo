@@ -69,13 +69,22 @@ public class FileOperatorActivity extends BaseActivity<ActivityFileOperatorBindi
                     Log.d(TAG, "写入错误：" + ret);
                 }
             } else {
-                mUnixNativeLib.writeStreamFile(streamFile, data);
+                int ret = mUnixNativeLib.writeStreamFile(streamFile, data);
+                if (ret == data.length) {
+                    mBinding.etContent.setText("");
+                }
             }
 
         });
         mBinding.btnReadFile.setOnClickListener((view) -> {
             if (mUnixNativeLib != null) {
-                mUnixNativeLib.readFile(fd);
+                boolean isFileRead = mBinding.switchState.isChecked();
+                if (isFileRead) {
+                    mUnixNativeLib.readFile(fd);
+                } else {
+                    FileInfo fileInfo = mUnixNativeLib.getFileInfo(DIRECTOR + FILE_NAME);
+                    mUnixNativeLib.readStreamIO(streamFile, (int) fileInfo.getSize());
+                }
             }
         });
     }

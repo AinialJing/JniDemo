@@ -34,6 +34,10 @@ public class UnixNativeLib {
     }
 
     public native long openStreamFile(String fileName);
-    public native int writeStreamFile(long file,byte[] data);
+
+    public native int writeStreamFile(long file, byte[] data);
+
+    public native int readStreamIO(long file,int size);
+
     public native int closeStreamFile(long file);
 }

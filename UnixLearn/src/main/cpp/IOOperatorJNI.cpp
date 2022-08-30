@@ -67,9 +67,20 @@ extern "C"
 JNIEXPORT jint JNICALL
 Java_com_anniljing_unixlearn_UnixNativeLib_writeFile(JNIEnv *env, jobject obj, jint fd,
                                                      jbyteArray data, jint size) {
-    unsigned char *buf = reinterpret_cast<unsigned char *>(env->GetByteArrayElements(data, 0));
+    //强转会出现多余的字符
+//    unsigned char *buf = reinterpret_cast<unsigned char *>(env->GetByteArrayElements(data, 0));
+    unsigned char *buf = NULL;
+    jbyte *bytes = NULL;
+    bytes = env->GetByteArrayElements(data, 0);
+    buf = new u_char[size + 1];
+    memset(buf, 0, size + 1);
+    memcpy(buf, bytes, size);
+    buf[size] = 0;
     fileOperator = FileIOOperator();
-    return fileOperator.writeFile(fd, buf, size);
+    int ret = fileOperator.writeFile(fd, buf, size);
+    env->ReleaseByteArrayElements(data, bytes, 0);
+    delete[] buf;
+    return ret;
 }
 extern "C"
 JNIEXPORT jint JNICALL
@@ -93,6 +104,7 @@ Java_com_anniljing_unixlearn_UnixNativeLib_openStreamFile(JNIEnv *env, jobject t
     streamIoOperator = StreamIOOperator(_path);
     FILE *file = streamIoOperator.openFile();
     if (NULL != file) {
+        //java层保存C层的结构体则以指针的形式保存
         return reinterpret_cast<jlong>(file);
     } else {
         LOGD("Open stream file failed");
@@ -103,19 +115,43 @@ extern "C"
 JNIEXPORT jint JNICALL
 Java_com_anniljing_unixlearn_UnixNativeLib_writeStreamFile(JNIEnv *env, jobject thiz, jlong file,
                                                            jbyteArray data) {
-    char *buff = reinterpret_cast<char *>(env->GetByteArrayElements(data, 0));
+    //jbyteArray类型的数据转换成C层的char
+    char *buff = NULL;
+    jbyte *bytes = NULL;
+    bytes = env->GetByteArrayElements(data, 0);
+    int buff_len = env->GetArrayLength(data);
+    buff = new char[buff_len + 1];
+    memset(buff, 0, buff_len + 1);
+    memcpy(buff, bytes, buff_len);
+    buff[buff_len] = 0;
     streamIoOperator = StreamIOOperator();
+    //java层传过来的long类型强转为C层的结构体
     FILE *fileStream = reinterpret_cast<FILE *>(file);
-    int ret = streamIoOperator.writeFile(fileStream, buff);
+    LOGD("write buffer:%s", buff);
+    int ret = streamIoOperator.writeFile(fileStream, buff, buff_len);
     LOGD("Stream file write:%d", ret);
+    env->ReleaseByteArrayElements(data, bytes, 0);
+    delete[] buff;
     return ret;
 }
+
+extern "C"
+JNIEXPORT jint JNICALL
+Java_com_anniljing_unixlearn_UnixNativeLib_readStreamIO(JNIEnv *env, jobject thiz, jlong file,
+                                                        jint size) {
+    streamIoOperator = StreamIOOperator();
+    //java层传过来的long类型强转为C层的结构体
+    FILE *fileStream = reinterpret_cast<FILE *>(file);
+    return streamIoOperator.readFile(fileStream, size);
+}
+
 extern "C"
 JNIEXPORT jint JNICALL
 Java_com_anniljing_unixlearn_UnixNativeLib_closeStreamFile(JNIEnv *env, jobject thiz, jlong file) {
     streamIoOperator = StreamIOOperator();
     FILE *fileStream = reinterpret_cast<FILE *>(file);
-    int ret=streamIoOperator.closeFile(fileStream);
+    LOGD("JNI file %p", fileStream);
+    int ret = streamIoOperator.closeFile(fileStream);
     LOGD("Stream file close:%d", ret);
     return ret;
 }
