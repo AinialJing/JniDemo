@@ -3,6 +3,7 @@ package com.anniljing.jnidemo;
 import android.Manifest;
 import android.os.Environment;
 import android.util.Log;
+import android.view.View;
 
 import com.anniljing.jnidemo.databinding.ActivityFileOperatorBinding;
 import com.anniljing.unixlearn.FileCallBack;
@@ -123,5 +124,9 @@ public class FileOperatorActivity extends BaseActivity<ActivityFileOperatorBindi
         runOnUiThread(() -> {
             mBinding.tvFileContent.setText("" + content);
         });
+    }
+
+    public void createThread(View view) {
+        mUnixNativeLib.createThread();
     }
 }

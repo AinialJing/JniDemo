@@ -91,6 +91,18 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             android:padding="5dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/createThread"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:text="创建线程"
+                android:gravity="center"
+                android:onClick="createThread"/>
+        </LinearLayout>
 
     </LinearLayout>
 </layout>

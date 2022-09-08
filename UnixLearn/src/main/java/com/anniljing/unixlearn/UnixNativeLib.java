@@ -37,7 +37,13 @@ public class UnixNativeLib {
 
     public native int writeStreamFile(long file, byte[] data);
 
-    public native int readStreamIO(long file,int size);
+    public native int readStreamIO(long file, int size);
 
     public native int closeStreamFile(long file);
+
+    public native void createThread();
+
+    public native void jointThread();
+
+    public native void exitThread();
 }
